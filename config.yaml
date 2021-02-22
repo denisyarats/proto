@@ -1,0 +1,100 @@
+# env
+env: cheetah_run
+frame_stack: 3
+action_repeat: 2
+# train
+num_train_steps: 500000 # 1M total true env steps (2 * 500000)
+num_expl_steps: 250000 # 500k task-agnostic steps (2 * 250000)
+num_random_steps: 1000
+replay_buffer_capacity: 100000
+seed: 1
+# eval
+eval_frequency: 50000
+num_eval_episodes: 10
+# misc
+log_frequency_step: 10000
+log_save_tb: true
+save_video: true
+save_model: false
+save_buffer: false
+save_pixels: false
+save_frequency: 10000
+device: cuda
+
+load_pretrained: false
+pretrained_step: 250000
+pretrained_dir: none
+
+
+agent:
+  class: proto.ProtoAgent
+  name: proto_rl
+  params:
+    obs_shape: ??? # to be specified later
+    action_shape: ??? # to be specified later
+    action_range: ??? # to be specified later
+    device: ${device}
+    encoder_cfg: ${encoder}
+    critic_cfg: ${critic}
+    actor_cfg: ${actor}
+    proto_cfg: ${proto}
+    discount: 0.99
+    init_temperature: 0.1
+    lr: 1e-4
+    actor_update_frequency: 2
+    critic_target_tau: 0.01
+    critic_target_update_frequency: 2
+    encoder_target_tau: 0.05
+    encoder_update_frequency: 2
+    batch_size: 512
+    task_agnostic: ???
+    intr_coef: 0.2
+    num_seed_steps: 1000
+    
+critic:
+  class: proto.Critic
+  params:
+    repr_dim: ???
+    feature_dim: 50
+    action_shape: ${agent.params.action_shape}
+    hidden_dim: 1024
+    hidden_depth: 2
+    
+actor:
+  class: proto.Actor
+  params:
+    repr_dim: ???
+    feature_dim: 50
+    action_shape: ${agent.params.action_shape}
+    hidden_depth: 2
+    hidden_dim: 1024
+    log_std_bounds: [-10, 2]
+    
+encoder:
+  class: proto.Encoder
+  params:
+      obs_shape: ${agent.params.obs_shape}
+      proj_dim: 128
+        
+proto:
+  class: proto.Proto
+  params:
+      proj_dim: ${encoder.params.proj_dim}
+      pred_dim: 512
+      T: 0.1
+      num_protos: 512
+      num_iters: 3
+      topk: 3
+      queue_size: 2048
+
+
+# hydra configuration
+experiment: bench
+
+hydra:
+  name: ${env}
+  run:
+    dir: ./exp_local/${now:%Y.%m.%d}/${now:%H%M%S}_${hydra.job.override_dirname}
+  sweep:
+    dir: ./exp/${now:%Y.%m.%d}/${now:%H%M%S}_${experiment}
+    subdir: ${hydra.job.num}
