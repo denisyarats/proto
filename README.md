@@ -1,5 +1,25 @@
 # Proto-RL: Reinforcement Learning with Prototypical Representations
 
+This is a PyTorch implementation of **Proto-RL** from
+
+**Reinforcement Learning with Prototypical Representations** by
+
+[Denis Yarats](https://cs.nyu.edu/~dy1042/), [Rob Fergus](https://cs.nyu.edu/~fergus/pmwiki/pmwiki.php), [Alessandro Lazaric](http://chercheurs.lille.inria.fr/~lazaric/Webpage/Home/Home.html), [Lerrel Pinto](https://cs.nyu.edu/~lp91/).
+
+[[Paper]](https://arxiv.org/abs/2102.11271)
+
+## Citation
+If you use this repo in your research, please consider citing the paper as follows
+```
+@article{yarats2021proto,
+    title={Reinforcement Learning with Prototypical Representations},
+    author={Denis Yarats and Rob Fergus and Alessandro Lazaric and Lerrel Pinto},
+    year={2021},
+    eprint={2102.11271},
+    archivePrefix={arXiv},
+    primaryClass={cs.ML}
+}
+```
 
 ## Requirements
 We assume you have access to a gpu that can run CUDA 11. Then, the simplest way to install all required dependencies is to create an anaconda environment by running
