@@ -36,7 +36,7 @@ In order to pretrain the agent you need to specify the number of task-agnostic e
 ```
 python train.py env=cheetah_run num_expl_steps=250000 num_train_steps=500000
 ```
-Note that we divede the number of steps by action repeat, which is set to 2 for all the environments.
+Note that we divide the number of steps by action repeat, which is set to 2 for all the environments.
 
 This will produce the `exp_local` folder, where all the outputs are going to be stored including train/eval logs, tensorboard blobs, and evaluation episode videos. To launch tensorboard run
 ```
