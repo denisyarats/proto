@@ -253,6 +253,10 @@ class ProtoAgent(object):
         self.encoder_target = other.encoder_target
         self.proto = other.proto
         self.actor = other.actor
+        self.critic = other.critic
+        self.critic_target = other.critic_target
+        self.log_alpha = other.log_alpha
+        
         # init opts
         self.init_optimizers(self.lr)
 
